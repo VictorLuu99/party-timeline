@@ -1,0 +1,40 @@
+{
+  "name": "party",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "wrangler pages dev ./dist --d1 DB --r2 PHOTOS",
+    "typecheck": "astro check",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply party-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply party-db --remote",
+    "db:seed:local": "tsx scripts/seed-from-notes.ts --local",
+    "db:seed:prod": "tsx scripts/seed-from-notes.ts --remote"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/cloudflare": "^12.6.13",
+    "@astrojs/react": "^5.0.5",
+    "@astrojs/tailwind": "^6.0.2",
+    "@cloudflare/workers-types": "^4.20260522.1",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "astro": "^5.18.1",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "tsx": "^4.22.3",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.93.1"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  }
+}

@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body { background: radial-gradient(120% 80% at 50% 0%, #2a0a4a 0%, #0a0518 70%); color: #f8f4ff; }
+  body { font-family: 'Inter', system-ui, sans-serif; min-height: 100vh; }
+}
+
+@layer utilities {
+  .text-neon-gradient {
+    background: linear-gradient(90deg, #ff3b8a, #ff8a3d, #ffeb3b, #00e5ff, #ff3b8a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    45% { opacity: .92; }
+    55% { opacity: .98; }
+  }
+  .animate-flicker { animation: flicker 4s ease-in-out infinite; }
+}
