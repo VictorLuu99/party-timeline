@@ -1,0 +1,9 @@
+---
+import { MONTH_NAMES_VI } from '~/lib/types';
+interface Props { month: number; year: number }
+const { month } = Astro.props;
+---
+<div class="date-pill inline-flex flex-col items-center justify-center w-16 h-16 rounded-full bg-bg-deep border-2 border-neon-cyan shadow-neon-cyan">
+  <span class="font-display text-2xl leading-none text-ink">{String(month).padStart(2, '0')}</span>
+  <span class="font-display text-[10px] leading-none text-neon-cyan tracking-wider mt-1">{MONTH_NAMES_VI[month]}</span>
+</div>

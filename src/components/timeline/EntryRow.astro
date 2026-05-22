@@ -1,0 +1,15 @@
+---
+import TypeBadge from './TypeBadge.astro';
+import type { PartyType } from '~/lib/types';
+interface Props { day: number; month: number; type: PartyType; title: string; isSpecial?: boolean; id: number }
+const { day, month, type, title, isSpecial, id } = Astro.props;
+---
+<div
+  class={`flex items-baseline gap-2 py-1 text-[13px] leading-snug entry ${isSpecial ? 'special' : ''}`}
+  data-type={type}
+  data-id={id}
+>
+  <span class="text-neon-yellow font-mono shrink-0 w-12">{day}-{month}</span>
+  <TypeBadge type={type} />
+  <span class="text-ink/90">{title}{isSpecial ? ' ★' : ''}</span>
+</div>

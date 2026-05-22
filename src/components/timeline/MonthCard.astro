@@ -1,0 +1,26 @@
+---
+import { MONTH_COLORS } from '~/lib/types';
+interface Props { month: number; year: number; side: 'left' | 'right' }
+const { month, year, side } = Astro.props;
+const colorKey = MONTH_COLORS[month] as 'pink' | 'orange' | 'yellow' | 'cyan' | 'green';
+
+const COLOR_CLASSES = {
+  pink:   { text: 'text-neon-pink',   border: 'border-neon-pink',   glow: 'shadow-neon-pink'   },
+  orange: { text: 'text-neon-orange', border: 'border-neon-orange', glow: 'shadow-neon-orange' },
+  yellow: { text: 'text-neon-yellow', border: 'border-neon-yellow', glow: 'shadow-neon-yellow' },
+  cyan:   { text: 'text-neon-cyan',   border: 'border-neon-cyan',   glow: 'shadow-neon-cyan'   },
+  green:  { text: 'text-neon-green',  border: 'border-neon-green',  glow: 'shadow-neon-green'  },
+} as const;
+const c = COLOR_CLASSES[colorKey];
+---
+<div
+  class:list={['month-card rounded-xl border bg-bg-deep/55 backdrop-blur-md p-4 relative', c.border, c.glow]}
+  data-side={side}
+  data-month={month}
+  data-year={year}
+>
+  <h3 class:list={['font-display text-2xl tracking-widest mb-2', c.text]}>THÁNG {month}</h3>
+  <div class="space-y-0">
+    <slot />
+  </div>
+</div>

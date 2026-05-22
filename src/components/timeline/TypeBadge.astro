@@ -1,0 +1,9 @@
+---
+import { TYPE_META, type PartyType } from '~/lib/types';
+interface Props { type: PartyType }
+const { type } = Astro.props;
+const m = TYPE_META[type];
+---
+<span class={`inline-block px-1.5 py-0.5 text-[10px] font-semibold tracking-wider rounded-sm border border-current ${m.colorClass}`}>
+  ({m.label})
+</span>
