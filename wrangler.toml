@@ -1,0 +1,16 @@
+name = "party-timeline"
+compatibility_date = "2025-09-01"
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "party-db"
+database_id = "a2555a85-ca25-40f9-863e-94a12014ea89"
+migrations_dir = "db/migrations"
+
+[[r2_buckets]]
+binding = "PHOTOS"
+bucket_name = "party-photos"
+
+[vars]
+PUBLIC_R2_URL = "https://pub-PLACEHOLDER.r2.dev"
