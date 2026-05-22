@@ -1,0 +1,23 @@
+---
+import Base from '~/layouts/Base.astro';
+---
+<Base title="Admin login">
+  <main class="max-w-sm mx-auto mt-32 px-4">
+    <h1 class="font-display text-3xl text-neon-pink mb-4">ADMIN LOGIN</h1>
+    <form id="login-form" class="space-y-3">
+      <input type="password" name="password" required placeholder="Mật khẩu" class="w-full px-3 py-2 rounded bg-bg-deep border border-ink/20 text-ink" />
+      <button class="w-full py-2 rounded bg-neon-pink text-bg-deep font-semibold">Đăng nhập</button>
+      <p id="err" class="text-red-400 text-sm hidden">Sai mật khẩu</p>
+    </form>
+  </main>
+  <script>
+    const f = document.getElementById('login-form') as HTMLFormElement;
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = (new FormData(f).get('password') as string);
+      const r = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
+      if (r.ok) location.href = '/admin';
+      else document.getElementById('err')!.classList.remove('hidden');
+    });
+  </script>
+</Base>
