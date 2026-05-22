@@ -23,7 +23,11 @@ export function computeStats(parties: Party[]): Stats {
     byType[p.type as PartyType]++;
     const ym = p.date.slice(0, 7);
     byMonth[ym] = (byMonth[ym] ?? 0) + 1;
-    if (p.crew) crewCounts.set(p.crew, (crewCounts.get(p.crew) ?? 0) + 1);
+    if (p.crew) {
+      for (const c of p.crew.split(',').map(s => s.trim()).filter(Boolean)) {
+        crewCounts.set(c, (crewCounts.get(c) ?? 0) + 1);
+      }
+    }
     heatmap[p.date] = (heatmap[p.date] ?? 0) + (p.epicLevel ?? 0);
   }
 

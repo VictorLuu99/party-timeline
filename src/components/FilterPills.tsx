@@ -17,7 +17,10 @@ export default function FilterPills({ crews }: Props) {
       if (filter === 'bia') match = type === 'bia' || type === 'bia_ruou';
       else if (filter === 'ruou') match = type === 'ruou' || type === 'bia_ruou';
       else if (filter === 'special') match = isSpecial;
-      if (match && crew !== 'all') match = entryCrew === crew;
+      if (match && crew !== 'all') {
+        const entryCrews = entryCrew.split(',').map(s => s.trim());
+        match = entryCrews.includes(crew);
+      }
       el.style.opacity = match ? '1' : '.25';
       el.style.transform = match ? 'scale(1)' : 'scale(.98)';
       el.style.filter = match ? 'none' : 'grayscale(.6)';

@@ -42,4 +42,29 @@ describe('parsePartyNote', () => {
   it('skips header-only lines', () => {
     expect(parsePartyNote('Lịch nhậu tháng 5/2026')).toEqual([]);
   });
+
+  it('matches crew case-insensitively (lowercase title → canonical name)', () => {
+    const out = parsePartyNote(`Lịch nhậu tháng 5/2026\n16-5 (rượu) chính vì điều đó`);
+    expect(out[0].crew).toBe('Chính vì điều đó');
+  });
+
+  it('detects multiple crews in one entry', () => {
+    const out = parsePartyNote(`Lịch nhậu tháng 5/2026\n8-5 (bia) 2 tăng chia tay lab3+ điều đó`);
+    expect(out[0].crew).toBe('Chính vì điều đó, Lab3');
+  });
+
+  it('detects quê as crew', () => {
+    const out = parsePartyNote(`Lịch nhậu tháng 5/2026\n10-5 (rượu) cỗ giỗ ở quê`);
+    expect(out[0].crew).toBe('quê');
+  });
+
+  it('detects quê HY as quê crew', () => {
+    const out = parsePartyNote(`Lịch nhậu tháng 2/2026\n13-2 (rượu) tất niên quê HY`);
+    expect(out[0].crew).toBe('quê');
+  });
+
+  it('"điều đó" alone maps to "Chính vì điều đó"', () => {
+    const out = parsePartyNote(`Lịch nhậu tháng 4/2026\n4-4 (rượu) 1 nửa Chính vì điều đó`);
+    expect(out[0].crew).toBe('Chính vì điều đó');
+  });
 });

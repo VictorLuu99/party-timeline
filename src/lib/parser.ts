@@ -11,7 +11,30 @@ export interface SeedRow {
   isSpecial: boolean;
 }
 
-const KNOWN_CREWS = ['Chính vì điều đó', 'Lab3', 'Sotatek', 'FC Coder', 'Defikit', 'XOX', 'BTN', 'SAVA', 'Vinfast'];
+// Each entry: [canonical, ...lowercase substrings to match].
+// Detection is case-insensitive. Multiple crews per entry are joined with ", ".
+const KNOWN_CREWS: [string, ...string[]][] = [
+  ['Chính vì điều đó', 'chính vì điều đó', 'điều đó', 'cvđđ'],
+  ['Lab3', 'lab3', 'lab 3'],
+  ['Sotatek', 'sotatek'],
+  ['FC Coder', 'fc coder'],
+  ['Defikit', 'defikit'],
+  ['XOX', 'xox'],
+  ['BTN', 'btn'],
+  ['SAVA', 'sava'],
+  ['Vinfast', 'vinfast'],
+  ['quê', 'ở quê', 'về quê', 'quê hy', 'quê nhà', 'giỗ ở quê', 'quê ny'],
+];
+
+function detectCrews(title: string): string | null {
+  const lower = title.toLowerCase();
+  const found: string[] = [];
+  for (const [canonical, ...patterns] of KNOWN_CREWS) {
+    if (patterns.some(p => lower.includes(p))) found.push(canonical);
+  }
+  return found.length === 0 ? null : found.join(', ');
+}
+
 const KNOWN_LOCATIONS = ['Lào Cai', 'Phúc Yên', 'Vĩnh Phúc', 'Sóc Sơn', 'Sầm Sơn', 'Việt Trì', 'Hà Nội', 'HY', 'Time-city', 'Cầu Giấy'];
 const SPECIAL_KEYWORDS = ['đám cưới', 'tất niên', 'yep', 'kickoff', 'sinh nhật', 'hoá vàng', 'giỗ', 'tốt nghiệp'];
 const TYPE_MAP: Record<string, PartyType> = {
@@ -100,8 +123,8 @@ function parseLine(line: string, year: number, headerMonth: number | null): Seed
   const isSpecial = SPECIAL_KEYWORDS.some(k => lower.includes(k));
   const epicLevel = isSpecial ? 5 : 3;
 
-  const crew = KNOWN_CREWS.find(c => title.includes(c)) ?? null;
-  const location = KNOWN_LOCATIONS.find(l => title.includes(l)) ?? null;
+  const crew = detectCrews(title);
+  const location = KNOWN_LOCATIONS.find(l => title.toLowerCase().includes(l.toLowerCase())) ?? null;
 
   return {
     date: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
