@@ -1,0 +1,28 @@
+---
+import Base from '~/layouts/Base.astro';
+import Hero from '~/components/Hero.astro';
+import Footer from '~/components/Footer.astro';
+import TimelineSection from '~/components/timeline/TimelineSection.astro';
+import StatsStrip from '~/components/StatsStrip.tsx';
+import FilterPills from '~/components/FilterPills.tsx';
+import Heatmap from '~/components/Heatmap.tsx';
+import DeepStats from '~/components/DeepStats.tsx';
+import { db } from '~/lib/db/client';
+import { listParties } from '~/lib/db/queries';
+import { computeStats } from '~/lib/stats';
+
+const env = Astro.locals.runtime.env;
+const parties = await listParties(db(env.DB));
+const stats = computeStats(parties);
+
+Astro.response.headers.set('Cache-Control', 'public, max-age=60, s-maxage=60');
+---
+<Base>
+  <Hero />
+  <StatsStrip client:idle stats={stats} />
+  <FilterPills client:idle crews={stats.byCrew.map(c => c.crew)} />
+  <TimelineSection parties={parties} />
+  <Heatmap client:visible heatmap={stats.heatmap} />
+  <DeepStats client:visible stats={stats} />
+  <Footer />
+</Base>
