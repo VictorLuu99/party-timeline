@@ -37,6 +37,7 @@
     "wrangler": "^4.93.1"
   },
   "dependencies": {
+    "aws4fetch": "^1.0.20",
     "drizzle-orm": "^0.45.2",
     "framer-motion": "^12.40.0",
     "react": "^19.2.6",
