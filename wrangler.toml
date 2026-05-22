@@ -1,6 +1,7 @@
 name = "party-timeline"
 compatibility_date = "2025-09-01"
 pages_build_output_dir = "./dist"
+account_id = "fa2d121bef68dce48efd907dcc068dfb"
 
 [[d1_databases]]
 binding = "DB"
