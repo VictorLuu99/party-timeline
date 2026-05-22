@@ -12,5 +12,7 @@ migrations_dir = "db/migrations"
 binding = "PHOTOS"
 bucket_name = "party-photos"
 
-[vars]
-PUBLIC_R2_URL = "https://pub-PLACEHOLDER.r2.dev"
+# PUBLIC_R2_URL, ADMIN_PASSWORD, JWT_SECRET, R2_* are set as Pages secrets
+# (via `wrangler pages secret put <NAME> --project-name party-timeline`).
+# Do NOT also define them under [vars] here — Pages will reject the deploy
+# with "Binding name X already in use".
