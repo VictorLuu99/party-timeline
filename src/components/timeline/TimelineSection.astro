@@ -42,7 +42,7 @@ const years = [...groups.keys()].sort((a, b) => b - a);
                     <MonthCard month={month} year={year} side="left">
                       {entries.map(e => {
                         const [_, mm, dd] = e.date.split('-').map(Number);
-                        return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                        return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} description={e.description} location={e.location} crew={e.crew} photos={(e as any).photos ?? []} />;
                       })}
                     </MonthCard>
                   </ScrollReveal>
@@ -59,7 +59,7 @@ const years = [...groups.keys()].sort((a, b) => b - a);
                     <MonthCard month={month} year={year} side="right">
                       {entries.map(e => {
                         const [_, mm, dd] = e.date.split('-').map(Number);
-                        return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                        return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} description={e.description} location={e.location} crew={e.crew} photos={(e as any).photos ?? []} />;
                       })}
                     </MonthCard>
                   </ScrollReveal>
@@ -70,7 +70,7 @@ const years = [...groups.keys()].sort((a, b) => b - a);
                   <MonthCard month={month} year={year} side="left">
                     {entries.map(e => {
                       const [_, mm, dd] = e.date.split('-').map(Number);
-                      return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                      return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} description={e.description} location={e.location} crew={e.crew} photos={(e as any).photos ?? []} />;
                     })}
                   </MonthCard>
                 </ScrollReveal>

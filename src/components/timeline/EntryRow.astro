@@ -1,15 +1,29 @@
 ---
 import TypeBadge from './TypeBadge.astro';
 import type { PartyType } from '~/lib/types';
-interface Props { day: number; month: number; type: PartyType; title: string; isSpecial?: boolean; id: number }
-const { day, month, type, title, isSpecial, id } = Astro.props;
+interface Props {
+  id: number; day: number; month: number; type: PartyType; title: string;
+  isSpecial?: boolean;
+  description?: string | null;
+  location?: string | null;
+  crew?: string | null;
+  photos?: { r2Key: string; caption: string | null }[];
+}
+const { id, day, month, type, title, isSpecial, description, location, crew, photos = [] } = Astro.props;
+const dataPhotos = JSON.stringify(photos);
 ---
-<div
-  class={`flex items-baseline gap-2 py-1 text-[13px] leading-snug entry ${isSpecial ? 'special' : ''}`}
-  data-type={type}
+<button
+  class:list={['entry flex items-baseline gap-2 py-1 text-[13px] leading-snug w-full text-left hover:bg-white/5 rounded px-1 cursor-pointer', isSpecial && 'special']}
+  data-entry-trigger
   data-id={id}
+  data-type={type}
+  data-title={title}
+  data-description={description ?? ''}
+  data-location={location ?? ''}
+  data-crew={crew ?? ''}
+  data-photos={dataPhotos}
 >
   <span class="text-neon-yellow font-mono shrink-0 w-12">{day}-{month}</span>
   <TypeBadge type={type} />
   <span class="text-ink/90">{title}{isSpecial ? ' ★' : ''}</span>
-</div>
+</button>

@@ -7,6 +7,7 @@ import StatsStrip from '~/components/StatsStrip.tsx';
 import FilterPills from '~/components/FilterPills.tsx';
 import Heatmap from '~/components/Heatmap.tsx';
 import DeepStats from '~/components/DeepStats.tsx';
+import EntryModal from '~/components/EntryModal.tsx';
 import { db } from '~/lib/db/client';
 import { listParties } from '~/lib/db/queries';
 import { computeStats } from '~/lib/stats';
@@ -25,4 +26,6 @@ Astro.response.headers.set('Cache-Control', 'public, max-age=60, s-maxage=60');
   <Heatmap client:visible heatmap={stats.heatmap} />
   <DeepStats client:visible stats={stats} />
   <Footer />
+  <EntryModal client:idle />
+  <script define:vars={{ url: env.PUBLIC_R2_URL }}>window.PUBLIC_R2_URL = url;</script>
 </Base>
