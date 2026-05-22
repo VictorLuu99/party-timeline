@@ -1,0 +1,21 @@
+---
+import IconBeerMug from './IconBeerMug.astro';
+import IconWineGlass from './IconWineGlass.astro';
+import IconStar from './IconStar.astro';
+---
+<footer class="mt-24 border-t border-ink/10 py-10 px-4">
+  <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+    <div>
+      <h4 class="font-display tracking-widest text-ink/70 mb-3">CHÚ THÍCH</h4>
+      <div class="space-y-2 text-sm">
+        <div class="flex items-center gap-2"><IconBeerMug class="w-5 h-5 text-neon-yellow" /><span class="text-neon-yellow font-semibold">BIA</span><span class="text-ink/60">— Vui vẻ, sôi động</span></div>
+        <div class="flex items-center gap-2"><IconWineGlass class="w-5 h-5 text-neon-pink" /><span class="text-neon-pink font-semibold">RƯỢU</span><span class="text-ink/60">— Ấm áp, thân cảm</span></div>
+        <div class="flex items-center gap-2"><IconStar class="text-neon-cyan" size={20} /><span class="text-neon-cyan font-semibold">ĐẶC BIỆT</span><span class="text-ink/60">— Sự kiện đặc biệt</span></div>
+      </div>
+    </div>
+    <div>
+      <h4 class="font-display tracking-widest text-ink/70 mb-3">TIP</h4>
+      <p class="text-sm text-ink/70 italic">Uống có trách nhiệm.<br />Nhậu nhiệt tình — sống hết mình!</p>
+    </div>
+  </div>
+</footer>

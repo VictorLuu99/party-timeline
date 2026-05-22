@@ -1,0 +1,21 @@
+---
+import '~/styles/global.css';
+import Sparkles from '~/components/Sparkles.astro';
+interface Props { title?: string }
+const { title = 'Lịch Nhậu Huyền Thoại' } = Astro.props;
+---
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/pacifico.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body class="font-body antialiased">
+    <Sparkles count={80} />
+    <slot />
+  </body>
+</html>
