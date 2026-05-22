@@ -21,6 +21,8 @@ const c = COLOR_CLASSES[colorKey];
 >
   <h3 class:list={['font-display text-2xl tracking-widest mb-2', c.text]}>THÁNG {month}</h3>
   <div class="space-y-0">
-    <slot />
+    <div class="entry-stagger">
+      <slot />
+    </div>
   </div>
 </div>

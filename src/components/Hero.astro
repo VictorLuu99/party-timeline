@@ -1,11 +1,12 @@
 ---
+import HeroAnimated from './HeroAnimated.tsx';
 import IconBeerMug from './IconBeerMug.astro';
 import IconWineGlass from './IconWineGlass.astro';
 ---
 <header class="relative min-h-[80vh] flex flex-col items-center justify-center text-center px-4">
   <div class="flex items-center gap-6 text-neon-yellow mb-4">
     <IconBeerMug class="w-14 h-14 -rotate-12 drop-shadow-[0_0_12px_#ffeb3b]" />
-    <h1 class="font-display text-7xl md:text-9xl tracking-[0.15em] text-neon-gradient animate-flicker">TIMELINE</h1>
+    <HeroAnimated client:load />
     <IconWineGlass class="w-14 h-14 rotate-12 text-neon-pink drop-shadow-[0_0_12px_#ff3b8a]" />
   </div>
   <p class="font-script text-3xl md:text-5xl text-neon-orange drop-shadow-[0_0_12px_rgba(255,138,61,.8)] -mt-2">

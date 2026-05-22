@@ -4,6 +4,7 @@ import YearMarker from './YearMarker.astro';
 import DatePill from './DatePill.astro';
 import MonthCard from './MonthCard.astro';
 import EntryRow from './EntryRow.astro';
+import ScrollReveal from '~/components/ScrollReveal.tsx';
 import type { Party } from '~/lib/db/schema';
 import type { PartyType } from '~/lib/types';
 
@@ -37,34 +38,42 @@ const years = [...groups.keys()].sort((a, b) => b - a);
             <div class="month-row relative grid md:grid-cols-[1fr_auto_1fr] gap-4 items-start mb-10">
               <div class={side === 'left' ? '' : 'hidden md:block'}>
                 {side === 'left' && (
+                  <ScrollReveal client:visible variant="slide-left">
+                    <MonthCard month={month} year={year} side="left">
+                      {entries.map(e => {
+                        const [_, mm, dd] = e.date.split('-').map(Number);
+                        return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                      })}
+                    </MonthCard>
+                  </ScrollReveal>
+                )}
+              </div>
+              <div class="hidden md:flex justify-center pt-2">
+                <ScrollReveal client:visible variant="scale-in">
+                  <DatePill month={month} year={year} />
+                </ScrollReveal>
+              </div>
+              <div class={side === 'right' ? '' : 'hidden md:block'}>
+                {side === 'right' && (
+                  <ScrollReveal client:visible variant="slide-right">
+                    <MonthCard month={month} year={year} side="right">
+                      {entries.map(e => {
+                        const [_, mm, dd] = e.date.split('-').map(Number);
+                        return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                      })}
+                    </MonthCard>
+                  </ScrollReveal>
+                )}
+              </div>
+              <div class="md:hidden">
+                <ScrollReveal client:visible variant="fade-up">
                   <MonthCard month={month} year={year} side="left">
                     {entries.map(e => {
                       const [_, mm, dd] = e.date.split('-').map(Number);
                       return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
                     })}
                   </MonthCard>
-                )}
-              </div>
-              <div class="hidden md:flex justify-center pt-2">
-                <DatePill month={month} year={year} />
-              </div>
-              <div class={side === 'right' ? '' : 'hidden md:block'}>
-                {side === 'right' && (
-                  <MonthCard month={month} year={year} side="right">
-                    {entries.map(e => {
-                      const [_, mm, dd] = e.date.split('-').map(Number);
-                      return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
-                    })}
-                  </MonthCard>
-                )}
-              </div>
-              <div class="md:hidden">
-                <MonthCard month={month} year={year} side="left">
-                  {entries.map(e => {
-                    const [_, mm, dd] = e.date.split('-').map(Number);
-                    return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
-                  })}
-                </MonthCard>
+                </ScrollReveal>
               </div>
             </div>
           );
