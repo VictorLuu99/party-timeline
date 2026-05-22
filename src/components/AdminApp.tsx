@@ -65,6 +65,7 @@ export default function AdminApp() {
               <option value="bia">bia</option><option value="ruou">ruou</option><option value="bia_ruou">bia+ruou</option><option value="coca">coca</option><option value="voi">voi</option><option value="other">other</option>
             </select>
             <input required placeholder="Title" value={editing.title ?? ''} onChange={e => setEditing({...editing, title: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
+            <textarea placeholder="Description" value={editing.description ?? ''} onChange={e => setEditing({...editing, description: e.target.value})} className="w-full p-2 bg-black/40 rounded min-h-[80px]" />
             <input placeholder="Location" value={editing.location ?? ''} onChange={e => setEditing({...editing, location: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
             <input placeholder="Crew" value={editing.crew ?? ''} onChange={e => setEditing({...editing, crew: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
             <label className="flex items-center gap-2"><input type="range" min={1} max={5} value={editing.epicLevel ?? 3} onChange={e => setEditing({...editing, epicLevel: Number(e.target.value)})} /> Epic {editing.epicLevel ?? 3}</label>

@@ -10,6 +10,7 @@ export const PATCH: APIRoute = async ({ params, request, locals }) => {
   const validated = validatePartyInput(await request.json().catch(() => null), { partial: true });
   if (typeof validated === 'string') return new Response(validated, { status: 400 });
   const row = await updateParty(db(locals.runtime.env.DB), id, validated);
+  if (!row) return new Response('not found', { status: 404 });
   const origin = new URL(request.url).origin;
   await invalidateEdgeCache([`${origin}/api/parties`, `${origin}/`]);
   return new Response(JSON.stringify(row), { headers: { 'Content-Type': 'application/json' } });
