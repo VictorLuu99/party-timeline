@@ -1,0 +1,75 @@
+---
+import TimelineSpine from './TimelineSpine.astro';
+import YearMarker from './YearMarker.astro';
+import DatePill from './DatePill.astro';
+import MonthCard from './MonthCard.astro';
+import EntryRow from './EntryRow.astro';
+import type { Party } from '~/lib/db/schema';
+import type { PartyType } from '~/lib/types';
+
+interface Props { parties: Party[] }
+const { parties } = Astro.props;
+
+// Group by year, then by month, sorted descending
+const groups = new Map<number, Map<number, Party[]>>();
+for (const p of parties) {
+  const [y, m] = p.date.split('-').map(Number);
+  if (!groups.has(y)) groups.set(y, new Map());
+  const yearGroup = groups.get(y)!;
+  if (!yearGroup.has(m)) yearGroup.set(m, []);
+  yearGroup.get(m)!.push(p);
+}
+
+const years = [...groups.keys()].sort((a, b) => b - a);
+---
+<section id="timeline" class="relative max-w-6xl mx-auto px-4 py-12">
+  <TimelineSpine />
+
+  {years.map((year, yi) => {
+    const months = [...groups.get(year)!.keys()].sort((a, b) => b - a);
+    return (
+      <div class="relative">
+        <YearMarker year={year} />
+        {months.map((month, mi) => {
+          const side: 'left' | 'right' = ((yi + mi) % 2 === 0) ? 'left' : 'right';
+          const entries = groups.get(year)!.get(month)!;
+          return (
+            <div class="month-row relative grid md:grid-cols-[1fr_auto_1fr] gap-4 items-start mb-10">
+              <div class={side === 'left' ? '' : 'hidden md:block'}>
+                {side === 'left' && (
+                  <MonthCard month={month} year={year} side="left">
+                    {entries.map(e => {
+                      const [_, mm, dd] = e.date.split('-').map(Number);
+                      return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                    })}
+                  </MonthCard>
+                )}
+              </div>
+              <div class="hidden md:flex justify-center pt-2">
+                <DatePill month={month} year={year} />
+              </div>
+              <div class={side === 'right' ? '' : 'hidden md:block'}>
+                {side === 'right' && (
+                  <MonthCard month={month} year={year} side="right">
+                    {entries.map(e => {
+                      const [_, mm, dd] = e.date.split('-').map(Number);
+                      return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                    })}
+                  </MonthCard>
+                )}
+              </div>
+              <div class="md:hidden">
+                <MonthCard month={month} year={year} side="left">
+                  {entries.map(e => {
+                    const [_, mm, dd] = e.date.split('-').map(Number);
+                    return <EntryRow id={e.id} day={dd} month={mm} type={e.type as PartyType} title={e.title} isSpecial={!!e.isSpecial} />;
+                  })}
+                </MonthCard>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  })}
+</section>
