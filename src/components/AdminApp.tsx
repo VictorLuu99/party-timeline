@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface Party { id: number; date: string; type: string; title: string; description?: string|null; location?: string|null; crew?: string|null; epicLevel: number; isSpecial: boolean }
 
@@ -10,6 +10,15 @@ export default function AdminApp() {
     const r = await fetch('/api/parties'); setList(await r.json());
   }
   useEffect(() => { load(); }, []);
+
+  const crewOptions = useMemo(() => {
+    const set = new Set<string>();
+    for (const p of list) {
+      if (!p.crew) continue;
+      for (const c of p.crew.split(',').map(s => s.trim()).filter(Boolean)) set.add(c);
+    }
+    return [...set].sort((a, b) => a.localeCompare(b, 'vi'));
+  }, [list]);
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -67,7 +76,10 @@ export default function AdminApp() {
             <input required placeholder="Title" value={editing.title ?? ''} onChange={e => setEditing({...editing, title: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
             <textarea placeholder="Description" value={editing.description ?? ''} onChange={e => setEditing({...editing, description: e.target.value})} className="w-full p-2 bg-black/40 rounded min-h-[80px]" />
             <input placeholder="Location" value={editing.location ?? ''} onChange={e => setEditing({...editing, location: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
-            <input placeholder="Crew" value={editing.crew ?? ''} onChange={e => setEditing({...editing, crew: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
+            <input list="crew-options" placeholder="Crew (chọn hoặc gõ mới, nhiều crew phân tách bằng dấu phẩy)" value={editing.crew ?? ''} onChange={e => setEditing({...editing, crew: e.target.value})} className="w-full p-2 bg-black/40 rounded" />
+            <datalist id="crew-options">
+              {crewOptions.map(c => <option key={c} value={c} />)}
+            </datalist>
             <label className="flex items-center gap-2"><input type="range" min={1} max={5} value={editing.epicLevel ?? 3} onChange={e => setEditing({...editing, epicLevel: Number(e.target.value)})} /> Epic {editing.epicLevel ?? 3}</label>
             <label className="flex items-center gap-2"><input type="checkbox" checked={!!editing.isSpecial} onChange={e => setEditing({...editing, isSpecial: e.target.checked})} /> Đặc biệt</label>
             {editing.id && <PhotoUploader partyId={editing.id} />}
